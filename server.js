@@ -59,16 +59,16 @@ server.get('/creation', async (request, response) => {
     })
 });
 
-server.get('/profil', async (request, response) => {
-    const profil = await getExchanges();
-
-    response.render('profil', {
-        titre: `Supprimer un échange`,
-        styles: ['/CSS/style.css'],
-        scripts: ['/JS/echange.js'],
-        profil: profil
-    })
+// Pour afficher la page de Sign-in
+server.get('/Sign-up', (req, res) => {
+    res.render('sign-up'
+        , { titre: 'Sign-in',
+            layout: 'body', 
+            styles: ['/CSS/style.css'],
+            scripts: ['/JS/Password.js']
+             });
 });
+
 
 server.get('/api/echanges', async (request, response) => {
     const exchange = await getExchanges();
