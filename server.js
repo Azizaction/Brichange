@@ -5,7 +5,8 @@ import helmet from 'helmet';
 import compression from 'compression';
 import cors from 'cors';
 import { engine } from 'express-handlebars';
-import { getDetail, getExchanges, getBriques, addEchange ,deleteEchange} from './instruction.js';
+import { getExchanges, getDetail,addEchange,deleteEchange} from './model/echange.js';
+import { getBriques } from './model/brique.js';
 import { validateNomEchange, validateQuantitesEchange} from './validation.js';
 
 const server = express();
@@ -19,7 +20,7 @@ server.use(helmet());
 server.use(cors());
 server.use(compression());
 server.use(json());
-server.use(express.static('Logiciel'));
+server.use(express.static('public'));
 
 // On ajoute une route pour visualiser tout les échanges
 

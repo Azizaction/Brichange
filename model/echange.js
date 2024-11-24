@@ -1,4 +1,4 @@
-import { connexion } from "./DB/db.js";
+import { connexion } from "../DB/db.js";
 
 /**
  * @returns retourne l'emsenble des échanges
@@ -14,16 +14,6 @@ export async function getExchanges() {
 
 }
 
-/**
- * @returns toute les brique qui a dans la basse de donnée  
- */
-
-export async function getBriques() {
-    const brique = await connexion.all(`SELECT brique.*,couleur.nom AS nom_couleur
-        FROM brique
-        JOIN couleur ON brique.id_couleur = couleur.id_couleur ;`);
-    return brique;
-}
 
 /**
  * @returns les détails de l'échange selectionner
@@ -33,11 +23,11 @@ export async function getDetail(id) {
     const detail = await connexion.all(
         `SELECT echange.id_echange AS id, echange.*, utilisateur.nom, utilisateur.prenom, 
                 echange_brique.quantite, brique.valeur, brique.image, brique.nom AS nom_brique
-         FROM echange
-         JOIN utilisateur ON echange.id_utilisateur = utilisateur.id_utilisateur
-         JOIN echange_brique ON echange_brique.id_echange = echange.id_echange
-         JOIN brique ON echange_brique.id_brique = brique.id_brique
-         WHERE echange.id_echange = ?;`, 
+        FROM echange
+        JOIN utilisateur ON echange.id_utilisateur = utilisateur.id_utilisateur
+        JOIN echange_brique ON echange_brique.id_echange = echange.id_echange
+        JOIN brique ON echange_brique.id_brique = brique.id_brique
+        WHERE echange.id_echange = ?;`, 
         [id]
     );
     return detail;
