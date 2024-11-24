@@ -255,3 +255,11 @@ input[type=checkbox]:checked + p {
 #total-exchange-value a{
     font-size: 5rem;
 }
+
+.rule {
+    color: red; 
+}
+
+.rule.valid {
+    color: green; 
+}
