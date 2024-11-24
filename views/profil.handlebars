@@ -1,0 +1,21 @@
+<div class="Titre-Text">
+    <h1>Bievenue Christiansen Ole Kirk </h1>
+</div>
+
+<ul id="profil-visu">
+    {{#each echanges}}
+    <li>
+        <p>{{this.nom_echange}}</p>
+
+        <p>{{this.nom}} {{this.prenom}}</p>
+
+        <a data-id="{{this.id_echange}}" href="/echange" onclick="getDetail(event, this.dataset.id)"> Voir l'échange</a>
+         <a href="#" onclick="deleteEchangeServeur('{{this.id_echange}}', this.parentElement); return false;">Supprimer</a>
+    </li>
+    {{/each}}
+</ul>
+
+
+<div class="btn">
+    <a href="/creation">Créer un échange</a>
+</div>

@@ -1,0 +1,24 @@
+<div id="ExchangeDetails" class="TiTre-Texte">
+
+</div>
+
+<ul id="detail-visu">
+    {{#each echange}}
+    <li class="brick-item">
+        <div class="div-gauche">
+            <img src="../assets/assets/{{this.image}}" alt="{{this.nom}}">
+        </div>
+        <div class="div-droite">
+            <h1>{{this.nom_brique}}</h1>
+            <p>valeur : {{this.valeur}}</p>
+            <p>quantité : {{this.quantite}}</p>
+        </div>
+    </li>
+    {{/each}}
+</ul>
+
+<p id="total-exchange-value">Valeur totale de l'échange : </p>
+
+<div class="btn">
+    <a href="/">Retour</a>
+</div>

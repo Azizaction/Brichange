@@ -1,0 +1,21 @@
+<div class="Titre-Text">
+    <h1> Créer votre échange </h1>
+</div>
+
+<ul id="creation-visu">
+    {{#each briques}}
+    <li>
+        <img src="../assets/assets/{{this.image}}" alt="{{this.nom}}">
+        <h1>{{ this.nom}}</h1>
+        <p>couleur: {{this.couleur}}</p>
+        <p>valeur: {{this.valeur}}</p>
+        <input type="number" step="1" min="0" id="#quan-input" data-id="{{this.id_brique}}">
+    </li>
+    {{/each}}
+</ul>
+
+<form id="form-echange" novalidate>
+    <input type="text" id="form-text" required minlength="5" maxlength="100">
+    <button type="submit"><span>Créer</span></button>
+</form>
+<div id="erreur-echange-text"></div>
