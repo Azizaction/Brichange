@@ -4,13 +4,22 @@ import express, {json} from 'express';
 import helmet from 'helmet';
 import compression from 'compression';
 import cors from 'cors';
+import session from 'express-session';
+import memorystore from 'memorystore';
+import passport from 'passport';
 import { engine } from 'express-handlebars';
 import { getExchanges, getDetail,addEchange,deleteEchange} from './model/echange.js';
 import { getBriques } from './model/brique.js';
-import { validateNomEchange, validateQuantitesEchange} from './validation.js';
+import './authentification.js';
+import { validateNomEchange, validateQuantitesEchange, validateCourriel,validateMotDePasse} from './validation.js';
 
+// Créer le serveur
 const server = express();
 
+// Création de la base de données de session
+const MemoryStore = memorystore(session);
+
+// Ajout des engins
 server.engine('handlebars', engine());
 server.set('view engine', 'handlebars');
 
@@ -20,6 +29,16 @@ server.use(helmet());
 server.use(cors());
 server.use(compression());
 server.use(json());
+server.use(session({
+    cookie: { maxAge: 3600000 },
+    name: process.env.npm_package_name,
+    store: new MemoryStore({ checkPeriod: 3600000 }),
+    resave: false,
+    saveUninitialized: false,
+    secret: process.env.SESSION_SECRET
+}));
+server.use(passport.initialize());
+server.use(passport.session());
 server.use(express.static('public'));
 
 // On ajoute une route pour visualiser tout les échanges
@@ -103,6 +122,43 @@ server.post('/api/exchange', async (request, response) => {
 server.delete('/api/suppression/:id', async (request,response)=>{
     const result = await deleteEchange(request.params.id);
     response.status(200).end();
+});
+
+
+server.post('/api/connexion', (request, response, next) => {
+    if(validateCourriel(request.body.courriel) &&
+       validateMotDePasse(request.body.motdepasse)) {
+        passport.authenticate('local', (erreur, utilisateur, info) => {
+            if(erreur) {
+                next(erreur);
+            }
+            else if(!utilisateur) {
+                response.status(401).json(info)
+            }
+            else {
+                request.logIn(utilisateur, (erreur) => {
+                    if(erreur) {
+                        next(erreur);
+                    }
+
+                    response.status(200).end();
+                });
+            }
+        })(request, response, next);
+    }
+    else {
+        response.status(400).end();
+    }
+});
+
+server.post('/api/deconnexion', (request, response, next) => {
+    request.logOut((erreur) => {
+        if(erreur) {
+            next(erreur);
+        }
+
+        response.redirect('/');
+    });
 });
 
 // Pour démarer le serveur

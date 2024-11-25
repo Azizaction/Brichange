@@ -42,7 +42,9 @@ async function createDatabase(connexion) {
         CREATE TABLE proposition (
             id_proposition INTEGER PRIMARY KEY,
             id_echange INTEGER NOT NULL,
-            FOREIGN KEY(id_echange) REFERENCES echange(id_echange)
+            id_utilisateur INTEGER NOT NULL,
+            FOREIGN KEY(id_echange) REFERENCES echange(id_echange),
+            FOREIGN KEY(id_utilisateur) REFERENCES utilisateur(id_utilisateur)
         );
         
         CREATE TABLE echange_brique (
@@ -93,16 +95,13 @@ async function createDatabase(connexion) {
         (3, 2445, 'Plaque 2X12 bleu', 'plaque-2x12-bleu.jpg', 0.46),
         (4, 2445, 'Plaque 2X12 vert', 'plaque-2x12-vert.jpg', 0.46),
         (6, 3811, 'Plaque de base 32X32 noir', 'plaque-base-32x32-noir.jpg', 12.85),
+        (3, 3068, 'Tuile 2X2 bleu', 'tuile-2x2-bleu.jpg', 0.1),
         (2, 6141, 'Plaque ronde 1X1 jaune', 'plaque-ronde-1x1-jaune.jpg', 0.06),
         (5, 3062, 'Brique ronde 1X1 blanc', 'brique-ronde-1x1-blanc.jpg', 0.08);
-
         
         INSERT INTO utilisateur (courriel, nom, prenom, mot_de_passe, acces)
         VALUES ('test@test.com', 'Christiansen', 'Ole Kirk', 'Test1234', 1);`
-
     );
-
-
 
     return connexion;
 }
@@ -112,7 +111,7 @@ let connexion = await open({
     driver: sqlite3.Database
 });
 
-if (IS_NEW) {
+if(IS_NEW) {
     connexion = await createDatabase(connexion);
 }
 
