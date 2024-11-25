@@ -263,3 +263,24 @@ input[type=checkbox]:checked + p {
 .rule.valid {
     color: green; 
 }
+
+.password-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.password-container input {
+    width: 100%;
+    padding-right: 40px; 
+}
+
+#opt-affichage {
+    position: absolute;
+    right: 10px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.2rem;
+    padding: 5px;
+}
