@@ -18,7 +18,7 @@ header {
     background-color: #ff0808;
 }
 
-header a{
+header a {
     text-align: right;
 }
 
@@ -129,6 +129,7 @@ main {
     font-size: medium;
     padding: 10px;
 }
+
 #creation-visu {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -181,7 +182,7 @@ form button {
     width: 100px;
 }
 
-#detail-visu{
+#detail-visu {
     width: 800px;
 }
 
@@ -193,7 +194,7 @@ form button {
 
 .titre-utilisateur {
     text-align: left;
-    margin-left: 10%; 
+    margin-left: 10%;
     font-size: 18px;
     font-weight: normal;
     color: #333;
@@ -209,7 +210,7 @@ form button {
     border-radius: 8px;
     width: 80%;
     max-width: 800px;
-    margin-left: auto; 
+    margin-left: auto;
     margin-right: auto;
 }
 
@@ -236,43 +237,71 @@ form button {
     margin: 5px 0;
 }
 
-input[type=checkbox]:checked + p {
+input[type=checkbox]:checked+p {
     text-decoration: #a00 line-through;
 }
 
 #erreur-echange-text {
     color: #a00;
 }
+
 .erreur {
     border: 1px solid #a00;
 }
 
-#total-exchange-value{
+#total-exchange-value {
     font-size: medium;
     font-weight: bold;
 }
 
-#total-exchange-value a{
+#total-exchange-value a {
     font-size: 5rem;
 }
 
 .rule {
-    color: red; 
+    color: red;
 }
 
 .rule.valid {
-    color: green; 
+    color: green;
 }
 
-.password-container {
+.input-form-style label {
+    display: block;
+    margin-bottom: 5px;
+    color: #333;
+    font-weight: bold;
+}
+
+.input-form-style input {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    border: 2px solid #000;
+    border-radius: 5px;
+    outline: none;
+}
+
+.input-password-form-style {
     position: relative;
     display: flex;
     align-items: center;
 }
 
-.password-container input {
+.Sign-up-container label {
+    display: block;
+    margin-bottom: 5px;
+    color: #333;
+    font-weight: bold;
+}
+
+.input-password-form-style input {
     width: 100%;
-    padding-right: 40px; 
+    padding: 10px;
+    font-size: 1rem;
+    border: 2px solid #000;
+    border-radius: 5px;
+    outline: none;
 }
 
 #opt-affichage {
@@ -284,3 +313,14 @@ input[type=checkbox]:checked + p {
     font-size: 1.2rem;
     padding: 5px;
 }
+
+#opt-affichage-confirm {
+    position: absolute;
+    right: 10px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.2rem;
+    padding: 5px;
+}
+
