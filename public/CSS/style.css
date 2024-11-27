@@ -288,7 +288,7 @@ input[type=checkbox]:checked+p {
     align-items: center;
 }
 
-.Sign-up-container label {
+.Sign-container label {
     display: block;
     margin-bottom: 5px;
     color: #333;

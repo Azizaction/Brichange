@@ -78,15 +78,31 @@ server.get('/creation', async (request, response) => {
     })
 });
 
-// Pour afficher la page de Sign-in
+// Pour afficher la page de Sign-up
 server.get('/Sign-up', (req, res) => {
+    if(req.user){
+        res.redirect('/');
+        return;
+    }
     res.render('sign-up'
+        , { titre: 'Sign-up',
+            layout: 'body', 
+            styles: ['/CSS/style.css'],
+            scripts: ['/JS/Password.js'],
+             });
+});
+
+// Pour afficher la page de Sign-in
+server.get('/Sign-in', (req, res) => {
+    res.render('sign-in'
         , { titre: 'Sign-in',
             layout: 'body', 
             styles: ['/CSS/style.css'],
             scripts: ['/JS/Password.js']
              });
 });
+
+
 
 
 server.get('/api/echanges', async (request, response) => {
@@ -127,7 +143,7 @@ server.delete('/api/suppression/:id', async (request,response)=>{
 
 server.post('/api/connexion', (request, response, next) => {
     if(validateCourriel(request.body.courriel) &&
-       validateMotDePasse(request.body.motdepasse)) {
+       validateMotDePasse(request.body.mot_de_passe)) {
         passport.authenticate('local', (erreur, utilisateur, info) => {
             if(erreur) {
                 next(erreur);

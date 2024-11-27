@@ -5,10 +5,10 @@ import { getUtilisateurById, getUtilisateurByCourriel } from './model/utilisateu
 
 const config = {
     usernameField: 'courriel',
-    passwordField: 'motdepasse'
+    passwordField: 'mot_de_passe'
 }
 
-passport.use(new Strategy(config, async (courriel, motdepasse, done) => {
+passport.use(new Strategy(config, async (courriel, mot_de_passe, done) => {
     try {
         const utilisateur = await getUtilisateurByCourriel(courriel);
 
@@ -16,7 +16,7 @@ passport.use(new Strategy(config, async (courriel, motdepasse, done) => {
             return done(null, false, { erreur: 'mauvais_courriel' });
         }
 
-        const valide = await compare(motdepasse, utilisateur.motdepasse);
+        const valide = await compare(mot_de_passe, utilisateur.mot_de_passe);
 
         if(!valide) {
             return done(null, false, { erreur: 'mauvais_motdepasse' });

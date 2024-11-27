@@ -1,0 +1,26 @@
+<div class="Sign-container">
+    <h1>Connexion</h1>
+
+
+    <form id="Sign-form" novalidate>
+        
+        <div class="input-form-style">
+            <label for="Email">Email</label>
+            <input type="email" id="Email" placeholder="Votre email" required>
+        </div>
+
+
+
+        <label for="password">Mot de passe</label>
+            <div class="input-password-form-style">
+                <input type="password" id="password" minlength="8" placeholder="Votre mot de passe" required>
+                <button type="button" id="opt-affichage" aria-label="Afficher ou masquer">👁️</button>
+            </div>
+
+
+        
+        <button type="submit"><span>Se connecter</span></button>
+        <div id="erreur-auth"></div>
+        <span>Vous n'avez pas de compte <a href="/sign-up" class="btn-sign-in">Se connecter</a> </span>
+    </form>
+</div>
