@@ -51,7 +51,7 @@ server.get('/', async (request, response) => {
     response.render('echanges', {
         titre: 'Les échanges',
         styles: ['/CSS/style.css'],
-        scripts: ['/JS/echange.js'],
+        scripts: ['/JS/echangeList.js'],
         échanges: échanges
     })
 });
@@ -62,7 +62,7 @@ server.get('/echange', async (request, response) => {
     response.render('echange', {
         titre: `Détail de l'échange`,
         styles: ['/CSS/style.css'],
-        scripts: ['/JS/echange.js'],
+        scripts: ['/JS/detailsBrique.js'],
         echange: echange  
     });
 });
@@ -73,7 +73,7 @@ server.get('/creation', async (request, response) => {
     response.render('briques', {
         titre: `Créer un échange`,
         styles: ['/CSS/style.css'],
-        scripts: ['/JS/echange.js'],
+        scripts: ['/JS/creerEchange.js'],
         échanges: briques
     })
 });
