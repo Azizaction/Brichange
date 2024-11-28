@@ -11,6 +11,7 @@ import { engine } from 'express-handlebars';
 import { getExchanges, getDetail,addEchange,deleteEchange} from './model/echange.js';
 import { getBriques } from './model/brique.js';
 import './authentification.js';
+import { addUser } from './model/utilisateur.js';
 import { validateNomEchange, validateQuantitesEchange, validateCourriel,validateMotDePasse} from './validation.js';
 
 // Créer le serveur
@@ -139,6 +140,35 @@ server.delete('/api/suppression/:id', async (request,response)=>{
     const result = await deleteEchange(request.params.id);
     response.status(200).end();
 });
+
+//Ajout de route pour creation d un utilisateur 
+server.post('/api/user', async (request, response, next) => {
+    if(validateCourriel(request.body.courriel) &&
+       validateMotDePasse(request.body.mot_de_passe)) {
+        try {
+            await addUser(
+                request.body.nom,
+                request.body.prenom,
+                request.body.courriel,
+                request.body.mot_de_passe
+            );
+
+            response.status(201).end();
+        }
+        catch(erreur) {
+            if(erreur.code === 'SQLITE_CONSTRAINT') {
+                response.status(409).end();
+            }
+            else {
+                next(erreur);
+            }
+        }
+    }
+    else {
+        response.status(400).end();
+    }
+});
+
 
 
 server.post('/api/connexion', (request, response, next) => {

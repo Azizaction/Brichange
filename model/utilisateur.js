@@ -8,7 +8,7 @@ import { hash } from 'bcrypt';
  * @returns l'utilisateur sélectionner par l'id
  */
 export async function getUserByID(id_utilisateur) {
-    const User = await connexion.get(`SELECT * FROM utilisteur WHERE id_utilisateur = ? `, [id_utilisateur]);
+    const User = await connexion.get(`SELECT * FROM utilisateur WHERE id_utilisateur = ? `, [id_utilisateur]);
     return User;
 }
 
@@ -33,7 +33,7 @@ export async function getUserByEmail(courriel) {
 export async function addUser(nom, prenom, courriel, mot_de_passe) {
     const Password = await hash(mot_de_passe, 10);
 
-    const user = await connexion.run(`INSERT INTO utilisateur (courriel, nom, prenom, mot_de_passe,) VALUES(?,?,?,?)`, [courriel, nom, prenom, Password]);
+    const user = await connexion.run(`INSERT INTO utilisateur (courriel, nom, prenom, mot_de_passe) VALUES(?,?,?,?)`, [courriel, nom, prenom, Password]);
     return user.lastID;
 
 }
