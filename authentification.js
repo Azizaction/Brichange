@@ -1,44 +1,46 @@
 import { compare } from 'bcrypt';
 import passport from 'passport';
 import { Strategy } from 'passport-local';
-import { getUtilisateurById, getUtilisateurByCourriel } from './model/utilisateur.js';
+import { getUserByID, getUserByEmail } from './model/utilisateur.js';
+
 
 const config = {
-    usernameField: 'courriel',
-    passwordField: 'mot_de_passe'
-}
+    usernameField: 'courriel', 
+    passwordField: 'mot_de_passe' 
+};
 
-passport.use(new Strategy(config, async (courriel, mot_de_passe, done) => {
-    try {
-        const utilisateur = await getUtilisateurByCourriel(courriel);
+passport.use(new Strategy(config, async(courriel, mot_de_passe, done) =>{
+    try{
+        const user = await getUserByEmail(courriel);
 
-        if(!utilisateur) {
-            return done(null, false, { erreur: 'mauvais_courriel' });
+        if(!user){
+            return done(null, false, {erreur: 'mauvais_courriel'});
         }
 
-        const valide = await compare(mot_de_passe, utilisateur.mot_de_passe);
-
-        if(!valide) {
-            return done(null, false, { erreur: 'mauvais_motdepasse' });
+        const password = await compare(mot_de_passe, user.mot_de_passe)
+        if(!password){
+            return done(null, false,{erreur:'mauvais_motdepasse'});
         }
 
-        return done(null, utilisateur);
+        return done(null, user);
     }
-    catch(erreur) {
+    catch(erreur){
         return done(erreur);
-    }
+    };
+
 }));
 
-passport.serializeUser((utilisateur, done) => {
-    done(null, utilisateur.id_utilisateur);
+passport.serializeUser((utilisateur,done)=>{
+    return done(null, utilisateur.id_utilisateur);
 });
 
-passport.deserializeUser(async (idUtilisateur, done) => {
+passport.deserializeUser(async(idutilisateur, done)=>{
     try{
-        const utilisateur = await getUtilisateurById(idUtilisateur);
-        done(null, utilisateur);
-    }
-    catch(erreur) {
-        done(erreur);
-    }
+    const user = await getUserByID(idutilisateur);
+    return done(null, user);
+}
+catch(erreur){
+    return done (erreur);
+}
 });
+

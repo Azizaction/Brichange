@@ -98,7 +98,7 @@ server.get('/Sign-in', (req, res) => {
         , { titre: 'Sign-in',
             layout: 'body', 
             styles: ['/CSS/style.css'],
-            scripts: ['/JS/Password.js']
+            scripts: ['/JS/Connexion.js']
              });
 });
 
