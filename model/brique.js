@@ -1,7 +1,7 @@
 import { connexion } from "../DB/db.js";
 
 /**
- * @returns toute les brique qui a dans la basse de donnée  
+ * @returns toute les brique qui a dans la base de donnée  
  */
 
 export async function getBriques() {
