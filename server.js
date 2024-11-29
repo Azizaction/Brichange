@@ -42,6 +42,16 @@ server.use(passport.initialize());
 server.use(passport.session());
 server.use(express.static('public'));
 
+// Création de middlewares
+function utilisateurConnecte(request, response, next) {
+    if(!request.user) {
+        response.status(401).end();
+        return;
+    }
+
+    next();
+}
+
 // On ajoute une route pour visualiser tout les échanges
 
 
@@ -53,7 +63,9 @@ server.get('/', async (request, response) => {
         titre: 'Les échanges',
         styles: ['/CSS/style.css'],
         scripts: ['/JS/echangeList.js'],
-        échanges: échanges
+        échanges: échanges,
+        user: request.user
+     
     })
 });
 
@@ -64,7 +76,8 @@ server.get('/echange', async (request, response) => {
         titre: `Détail de l'échange`,
         styles: ['/CSS/style.css'],
         scripts: ['/JS/detailsBrique.js'],
-        echange: echange  
+        echange: echange ,
+        user: request.user
     });
 });
 
@@ -75,32 +88,39 @@ server.get('/creation', async (request, response) => {
         titre: `Créer un échange`,
         styles: ['/CSS/style.css'],
         scripts: ['/JS/creerEchange.js'],
-        échanges: briques
+        échanges: briques,
+        user: request.user
     })
 });
 
 // Pour afficher la page de Sign-up
-server.get('/Sign-up', (req, res) => {
-    if(req.user){
-        res.redirect('/');
+server.get('/Sign-up', (request, response) => {
+    if(request.user){
+        response.redirect('/');
         return;
     }
-    res.render('sign-up'
+    response.render('sign-up'
         , { titre: 'Sign-up',
             layout: 'body', 
             styles: ['/CSS/style.css'],
             scripts: ['/JS/Password.js'],
-             });
+            user: request.user
+            });
 });
 
 // Pour afficher la page de Sign-in
-server.get('/Sign-in', (req, res) => {
-    res.render('sign-in'
+server.get('/Sign-in', (request, response) => {
+    if(request.user) {
+        response.redirect('/');
+        return;
+    }
+    response.render('sign-in'
         , { titre: 'Sign-in',
             layout: 'body', 
             styles: ['/CSS/style.css'],
-            scripts: ['/JS/Connexion.js']
-             });
+            scripts: ['/JS/Connexion.js'],
+            user: request.user
+            });
 });
 
 
