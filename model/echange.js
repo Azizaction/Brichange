@@ -1,5 +1,6 @@
 import { connexion } from "../DB/db.js";
 
+
 /**
  * @returns retourne l'emsenble des échanges
  */
@@ -33,38 +34,41 @@ export async function getDetail(id) {
     return detail;
 }
 
+// retourne les echanges d un utilisateur specifique 
+
+export async function getEchangeById(idUtilisateur){
+    const echangeId = await connexion.all(
+        `SELECT echange.id_echange, echange.nom_echange,
+            utilisateur.id_utilisateur,utilisateur.nom,
+            utilisateur.prenom,echange.id_proposition
+            FROM echange 
+            INNER JOIN utilisateur ON echange.id_utilisateur = utilisateur.id_utilisateur
+            WHERE utilisateur.id_utilisateur = ? AND echange.id_proposition_accepte IS ?`,
+            [idUtilisateur]
+    );
+    return echangeId;
+}
+
 /**
  * Ajoute un échange a la base de donnés.
  * @param {string} nom_echange Le nom de l`echange à ajouter.
  * @returns L'identifiant de léchange ajouté.
  */
-export async function addEchange(nom_echange, briques) {
-    const idUtilisateur = 1;
+export async function addEchange(nom_echange,idUtilisateur, briques){
+const ajout_echange = await connexion.run('INSERT INTO echange (nom_echange, id_utilisateur) Values(?, ?);',
+[nom_echange, idUtilisateur]);
 
-    const ajout_echange = await connexion.run(
-        'INSERT INTO echange (nom_echange, id_utilisateur) VALUES (?, ?);',
-        [nom_echange, idUtilisateur]
-    );
-    const idEchange = ajout_echange.lastID;
+const lastID = ajout_echange.lastID;
+for(const brique of briques){
+    await connexion.run('INSERT INTO echange_brique (id_echange, id_brique, quantite) Values(?,?,?);',
+[lastID, brique.id_brique, brique.quantite]);
 
-    // Boucle pour insérer chaque brique
-    for (const brique of briques) {
-        const existingEntry = await connexion.get(
-            'SELECT 1 FROM echange_brique WHERE id_echange = ? AND id_brique = ?',
-            [idEchange, brique.id_brique]
-        );
 
-        // Si la combinaison n'existe pas, insère la nouvelle ligne
-        if (!existingEntry) {
-            await connexion.run(
-                'INSERT INTO echange_brique (id_echange, id_brique, quantite) VALUES (?, ?, ?);',
-                [idEchange, brique.id_brique, brique.quantite]
-            );
-        }
-    }
-
-    return idEchange;
 }
+
+return lastID;
+}
+
 
 //fonction pour supprimer un échange par id
 export async function deleteEchange(id) {

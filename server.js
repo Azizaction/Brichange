@@ -145,7 +145,7 @@ server.get('/api/detail/:id', async(request,response) =>{
 // On ajoute une route pour ajouter un échange
 server.post('/api/exchange', async (request, response) => {
     if(validateNomEchange(request.body.nom_echange)){
-        const id = await addEchange(request.body.nom_echange, request.body.briques);
+        const id = await addEchange(request.body.nom_echange, request.user.id_utilisateur, request.body.briques);
 
         response.status(201).json({ id: id });
     }
