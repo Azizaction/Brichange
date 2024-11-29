@@ -12,7 +12,7 @@ import { getExchanges, getDetail,addEchange,deleteEchange} from './model/echange
 import { getBriques } from './model/brique.js';
 import './authentification.js';
 import { addUser } from './model/utilisateur.js';
-import { validateNomEchange, validateQuantitesEchange, validateCourriel,validateMotDePasse} from './validation.js';
+import { validateNomEchange, validateQuantitesEchange,validatenom, validateprenom, validateCourriel,validateMotDePasse} from './validation.js';
 
 // Créer le serveur
 const server = express();
@@ -89,7 +89,7 @@ server.get('/Sign-up', (req, res) => {
         , { titre: 'Sign-up',
             layout: 'body', 
             styles: ['/CSS/style.css'],
-            scripts: ['/JS/Password.js'],
+            scripts: ['/JS/Inscription.js'],
              });
 });
 
@@ -144,7 +144,10 @@ server.delete('/api/suppression/:id', async (request,response)=>{
 //Ajout de route pour creation d un utilisateur 
 server.post('/api/user', async (request, response, next) => {
     if(validateCourriel(request.body.courriel) &&
-       validateMotDePasse(request.body.mot_de_passe)) {
+       validateMotDePasse(request.body.mot_de_passe)&&
+    validatenom(request.body.nom)&&
+    validateprenom(request.body.prenom)
+) {
         try {
             await addUser(
                 request.body.nom,
