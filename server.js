@@ -103,14 +103,8 @@ server.get('/Sign-up', (request, response) => {
         , { titre: 'Sign-up',
             layout: 'body', 
             styles: ['/CSS/style.css'],
-<<<<<<< HEAD
             scripts: ['/JS/Inscription.js'],
              });
-=======
-            scripts: ['/JS/Password.js'],
-            user: request.user
-            });
->>>>>>> 3d4375174bf9d7acb948aeb07cbee397bbd5b764
 });
 
 // Pour afficher la page de Sign-in
