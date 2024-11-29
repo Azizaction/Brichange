@@ -2,8 +2,19 @@
     <div class="Logo-Text">
         <a href="/">Brichange</a>
     </div>
-
+{{#unless user}}
     <a href="/Sign-in">Se connecter</a>
+{{/unless}}
+{{#unless user}}
     <a href="/Sign-up">Créer un compte</a>
+{{/unless}}
+
+{{#if user}}
+            <li>
+                <form method="post" action="/api/deconnexion">
+                    <input type="submit" value="Déconnexion">
+                </form>
+            </li>
+            {{/if}}
 
 </header>
